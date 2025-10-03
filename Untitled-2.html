@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Materi — Konsep Tanda Sama Dengan</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts lucu untuk anak-anak -->
+  <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Fredoka+One&display=swap" rel="stylesheet">
+  <style>
+    .bg-materi { background: linear-gradient(135deg, #ffe066, #ff9f1c, #ff6b6b); background-size: 600% 600%; animation: gradientFlow 12s ease infinite; }
+    @keyframes gradientFlow { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+    .tab-active { background-color: rgba(255,255,255,0.25); font-weight:bold; }
+    .font-display { font-family: 'Fredoka One', cursive; }
+    .font-body { font-family: 'Comic Neue', cursive; }
+    .ball { width:28px; height:28px; border-radius:9999px; box-shadow: inset 0 6px 10px rgba(255,255,255,.35), inset 0 -6px 10px rgba(0,0,0,.25); animation: bounce 1.5s infinite; }
+    @keyframes bounce { 0%,100%{ transform:translateY(0);} 50%{ transform:translateY(-8px);} }
+    .btn-game { background: linear-gradient(90deg, #ffe066, #ff9f1c, #ff6b6b); background-size: 200% auto; color:#fff; text-shadow:2px 2px 0 #000; }
+    .slide-enter-active { opacity:1; transform: translateY(0) scale(1); transition:all .45s ease; }
+    .slide { opacity:1; transform: translateY(0) scale(1); }
+  </style>
+</head>
+<body class="min-h-screen text-white font-body bg-materi">
+  <main class="flex min-h-screen items-center justify-center p-6">
+    <section class="w-full max-w-5xl bg-white/10 backdrop-blur-lg rounded-3xl p-6 md:p-10 shadow-xl">
+      <h1 class="font-display text-3xl md:text-4xl text-yellow-300 drop-shadow mb-6 text-center animate-bounce">
+        📚 Materi: Konsep Tanda Sama Dengan (=)
+      </h1>
+
+      <!-- Tabs -->
+      <div class="flex flex-wrap justify-center gap-3 mb-6">
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="0">⚖️ Konsep</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="1">➕➖ Operasi</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="2">🔢 Hubungan</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="3">🎮 Seimbangkan</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="4">🎲 Contoh</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="5">🧸 Mainan vs Kelereng</button>
+      </div>
+
+      <!-- Slide 1: Konsep -->
+      <div id="slide1" class="slide">
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+          <div class="text-center md:text-left">
+            <h2 class="font-display text-3xl text-yellow-300 drop-shadow">Apa arti tanda = ?</h2>
+            <p class="mt-2 text-white/90">Tanda <strong>=</strong> berarti <strong>kedua sisi nilainya sama</strong> — seperti timbangan yang <strong>seimbang</strong> ⚖️.</p>
+            <ul class="mt-4 space-y-2 text-white/90">
+              <li>🎯 <strong>3 + 2 = 5</strong> → sisi kiri dan kanan <em>sama</em>.</li>
+              <li>🧠 <strong>7 − 1 = 3 + 3</strong> → dua cara berbeda, hasilnya <em>setara</em>.</li>
+            </ul>
+          </div>
+          <!-- Ilustrasi timbangan SVG -->
+          <div class="relative">
+            <div class="absolute -top-6 -left-6 text-6xl opacity-20 animate-bounce">➕</div>
+            <div class="absolute -bottom-6 -right-6 text-6xl opacity-20 animate-bounce" style="animation-delay:.8s">➖</div>
+            <svg viewBox="0 0 520 260" class="w-full">
+              <rect x="40" y="220" width="440" height="20" rx="10" fill="rgba(0,0,0,.3)"/>
+              <rect x="250" y="120" width="20" height="100" rx="8" fill="#2c2c2c"/>
+              <circle cx="260" cy="120" r="14" fill="#ffd166"/>
+              <rect x="80" y="110" width="360" height="20" rx="10" fill="#404040"/>
+              <ellipse cx="130" cy="170" rx="60" ry="14" fill="#111827"/>
+              <rect x="110" y="126" width="40" height="46" fill="#1f2937"/>
+              <ellipse cx="390" cy="170" rx="60" ry="14" fill="#111827"/>
+              <rect x="370" y="126" width="40" height="46" fill="#1f2937"/>
+              <text x="120" y="205" fill="#fff" font-size="16">Kiri</text>
+              <text x="380" y="205" fill="#fff" font-size="16">Kanan</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Operasi -->
+      <div id="slide2" class="slide hidden">
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white/10 rounded-2xl p-4 flex flex-col items-center text-center">
+            <img src="https://img.icons8.com/color/96/marble.png" class="mb-3 animate-bounce"/>
+            <h2 class="font-display text-xl text-yellow-300 mb-2">Menambah Kelereng</h2>
+            <p class="text-sm text-white/80">Jika sisi kiri lebih berat, tambahkan kelereng ke kanan agar seimbang.</p>
+          </div>
+          <div class="bg-white/10 rounded-2xl p-4 flex flex-col items-center text-center">
+            <img src="https://img.icons8.com/color/96/remove.png" class="mb-3 animate-bounce"/>
+            <h2 class="font-display text-xl text-yellow-300 mb-2">Mengurangi Kelereng</h2>
+            <p class="text-sm text-white/80">Jika sisi kanan lebih berat, kurangi kelereng dari kanan supaya setara.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Hubungan -->
+      <div id="slide3" class="slide hidden">
+        <div class="text-center">
+          <h2 class="font-display text-2xl text-yellow-300 mb-4">Hubungan Bilangan</h2>
+          <div class="flex justify-center gap-6 text-4xl">
+            <div class="flex flex-col items-center animate-bounce"><span class="font-bold">&lt;</span><p class="text-sm text-white/80">Lebih Kecil</p></div>
+            <div class="flex flex-col items-center animate-bounce"><span class="font-bold">=</span><p class="text-sm text-white/80">Sama Dengan</p></div>
+            <div class="flex flex-col items-center animate-bounce"><span class="font-bold">&gt;</span><p class="text-sm text-white/80">Lebih Besar</p></div>
+          </div>
+          <p class="mt-4 text-white/90">Gunakan tanda ini untuk membandingkan jumlah kelereng di sisi kiri dan kanan.</p>
+        </div>
+      </div>
+
+      <!-- Slide 4: Seimbangkan (INTERAKTIF tombol +1/+5/-1 sesuai contohmu) -->
+      <div id="slide4" class="slide hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-display text-2xl">Coba Sendiri: Seimbangkan Timbangan</h3>
+          <div class="text-3xl" id="relIcon">❓</div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4">
+          <!-- panel kiri -->
+          <div class="bg-white/10 rounded-2xl p-4">
+            <p class="text-center text-sm mb-2">Kiri</p>
+            <div id="leftBalls" class="min-h-[64px] flex flex-wrap gap-2 justify-center"></div>
+            <div class="mt-3 grid grid-cols-3 gap-2">
+              <button class="px-3 py-2 bg-green-400/90 text-black rounded-lg" data-act="addL">+1</button>
+              <button class="px-3 py-2 bg-yellow-300/90 text-black rounded-lg" data-act="addL5">+5</button>
+              <button class="px-3 py-2 bg-red-400/90 text-black rounded-lg" data-act="remL">-1</button>
+            </div>
+          </div>
+          <!-- indikator hubungan -->
+          <div class="flex items-center justify-center">
+            <div class="text-center">
+              <div class="text-sm text-white/80">Hubungan</div>
+              <div id="relation" class="text-6xl font-display">=</div>
+              <div class="text-sm text-white/80"><span id="leftVal">0</span> ? <span id="rightVal">0</span></div>
+            </div>
+          </div>
+          <!-- panel kanan -->
+          <div class="bg-white/10 rounded-2xl p-4">
+            <p class="text-center text-sm mb-2">Kanan</p>
+            <div id="rightBalls" class="min-h-[64px] flex flex-wrap gap-2 justify-center"></div>
+            <div class="mt-3 grid grid-cols-3 gap-2">
+              <button class="px-3 py-2 bg-green-400/90 text-black rounded-lg" data-act="addR">+1</button>
+              <button class="px-3 py-2 bg-yellow-300/90 text-black rounded-lg" data-act="addR5">+5</button>
+              <button class="px-3 py-2 bg-red-400/90 text-black rounded-lg" data-act="remR">-1</button>
+            </div>
+          </div>
+        </div>
+        <p class="mt-4 text-white/90 text-sm">Aturan emas: <strong>=</strong> artinya <em>kiri</em> dan <em>kanan</em> punya nilai yang sama. Jika kiri lebih sedikit, tampil akan jadi <strong>&lt;</strong>; jika lebih banyak, jadi <strong>&gt;</strong>.</p>
+      </div>
+
+      <!-- Slide 5: Contoh seimbang (acak) -->
+      <div id="slide5" class="slide hidden">
+        <h3 class="font-display text-2xl mb-4">Jadikan Pernyataan Seimbang</h3>
+        <div class="grid md:grid-cols-3 gap-4">
+          <div class="bg-black/20 rounded-2xl p-4 text-center">
+            <div class="text-3xl">3️⃣ + 2️⃣ = <span id="ex1">5️⃣</span></div>
+            <button class="mt-3 btn-game rounded-xl px-4 py-2" data-ex="1">Acak</button>
+          </div>
+          <div class="bg-black/20 rounded-2xl p-4 text-center">
+            <div class="text-3xl">7️⃣ − 1️⃣ = 3️⃣ + <span id="ex2">3️⃣</span></div>
+            <button class="mt-3 btn-game rounded-xl px-4 py-2" data-ex="2">Acak</button>
+          </div>
+          <div class="bg-black/20 rounded-2xl p-4 text-center">
+            <div class="text-3xl">2️⃣ + 4️⃣ = <span id="ex3">6️⃣</span></div>
+            <button class="mt-3 btn-game rounded-xl px-4 py-2" data-ex="3">Acak</button>
+          </div>
+        </div>
+        <p class="mt-4 text-white/90 text-sm">Tekan <em>Acak</em> untuk melihat variasi bilangan yang <strong>tetap seimbang</strong>.</p>
+      </div>
+
+      <!-- Slide 6: Mainan vs Kelereng -->
+      <div id="slide6" class="slide hidden">
+        <h3 class="font-display text-2xl mb-4">Berapa kelereng setara 1 mainan?</h3>
+        <div class="grid md:grid-cols-2 gap-6 items-center">
+          <div class="flex justify-center">
+            <img class="h-28 w-28" alt="bebek" src="https://img.icons8.com/emoji/128/duck.png" style="filter: drop-shadow(0 6px 10px rgba(0,0,0,.25))"/>
+          </div>
+          <div class="text-center md:text-left">
+            <div class="flex flex-wrap gap-2 items-center justify-center md:justify-start" id="duckBalls"></div>
+            <div class="mt-3 flex items-center gap-2 justify-center md:justify-start">
+              <button class="px-3 py-2 bg-yellow-300/90 text-black rounded-lg" id="moreB">+1 kelereng</button>
+              <button class="px-3 py-2 bg-red-400/90 text-black rounded-lg" id="lessB">-1</button>
+              <span class="text-sm text-white/80">Contoh target: 1 bebek = 3 kelereng</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tombol Navigasi bawah -->
+      <div class="flex justify-center gap-4 mt-8">
+        <button onclick="alert('Kembali ke Menu Utama')" class="px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 font-semibold flex items-center gap-2">⬅ Menu</button>
+        <button onclick="alert('Lanjut ke Latihan Soal')" class="px-6 py-3 rounded-xl bg-yellow-400 text-black font-bold shadow hover:scale-105 transform transition">Latihan ➡</button>
+      </div>
+
+      <footer class="mt-10 text-center text-sm text-white/70">© <span id="year"></span> Materi Belajar — Konsep Sama Dengan</footer>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Tabs/Slides
+    const tabs=[...document.querySelectorAll('.tab')];
+    const slides=[document.getElementById('slide1'),document.getElementById('slide2'),document.getElementById('slide3'),document.getElementById('slide4'),document.getElementById('slide5'),document.getElementById('slide6')];
+    function showTab(i){
+      slides.forEach((s,idx)=>{ s.classList.toggle('hidden', idx!==i); });
+      tabs.forEach((t,idx)=>t.classList.toggle('tab-active', idx===i));
+      // anim masuk
+      const active=slides[i]; active.classList.remove('hidden'); active.classList.add('slide-enter-active');
+      setTimeout(()=>active.classList.remove('slide-enter-active'), 480);
+    }
+    tabs.forEach((t,idx)=>t.addEventListener('click',()=>showTab(idx)));
+    showTab(0);
+
+    // Util: bola kelereng
+    function marble(grad){ const d=document.createElement('div'); d.className='ball'; d.style.background = grad || 'radial-gradient(circle at 30% 30%, #fff5, #60a5fa)'; return d; }
+
+    // Slide 4: Seimbangkan (sesuai contohmu +1/+5/-1)
+    const leftWrap = document.getElementById('leftBalls');
+    const rightWrap = document.getElementById('rightBalls');
+    const leftVal = document.getElementById('leftVal');
+    const rightVal = document.getElementById('rightVal');
+    const relation = document.getElementById('relation');
+    const relIcon = document.getElementById('relIcon');
+    let L=0, R=0;
+    function renderLR(){
+      leftWrap.innerHTML=''; rightWrap.innerHTML='';
+      for(let i=0;i<L;i++) leftWrap.appendChild(marble('radial-gradient(circle at 30% 30%, #fff5, #f87171)'));
+      for(let i=0;i<R;i++) rightWrap.appendChild(marble('radial-gradient(circle at 30% 30%, #fff5, #fde047)'));
+      leftVal.textContent=L; rightVal.textContent=R;
+      if(L===R){ relation.textContent='='; relIcon.textContent='⚖️'; }
+      else if(L<R){ relation.textContent='<'; relIcon.textContent='⬅️'; }
+      else { relation.textContent='>'; relIcon.textContent='➡️'; }
+    }
+    document.querySelectorAll('[data-act]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const act = btn.getAttribute('data-act');
+        if(act==='addL') L++; if(act==='addL5') L+=5; if(act==='remL') L=Math.max(0,L-1);
+        if(act==='addR') R++; if(act==='addR5') R+=5; if(act==='remR') R=Math.max(0,R-1);
+        renderLR();
+      });
+    });
+    renderLR();
+
+    // Slide 5: contoh acak tetap seimbang
+    function rand(n){ return Math.floor(Math.random()*n); }
+    document.querySelectorAll('[data-ex]').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        const ex = btn.getAttribute('data-ex');
+        if(ex==='1'){ const a=rand(6)+1; const b=rand(6)+1; document.getElementById('ex1').textContent=(a+b)+'️⃣'; }
+        if(ex==='2'){ const k=rand(5)+1; document.getElementById('ex2').textContent=k+'️⃣'; }
+        if(ex==='3'){ const a=rand(5)+1; const b=rand(5)+1; document.getElementById('ex3').textContent=(a+b)+'️⃣'; }
+      });
+    });
+
+    // Slide 6: duck = ? marbles
+    const duckWrap = document.getElementById('duckBalls');
+    let B=3; function renderDuck(){ duckWrap.innerHTML=''; for(let i=0;i<B;i++) duckWrap.appendChild(marble('radial-gradient(circle at 30% 30%, #fff5, #22c55e)')); }
+    renderDuck();
+    const moreB=document.getElementById('moreB'); const lessB=document.getElementById('lessB');
+    if(moreB && lessB){
+      moreB.onclick=()=>{ B++; renderDuck(); };
+      lessB.onclick=()=>{ B=Math.max(0,B-1); renderDuck(); };
+    }
+  </script>
+</body>
+</html>

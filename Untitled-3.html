@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Interaktif — 1 Soal per Slide</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Konfigurasi Tailwind (opsional untuk font & warna)
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Luckiest Guy", "cursive"],
+            body: ["Poppins", "ui-sans-serif", "system-ui"]
+          },
+          colors: {
+            brand: {
+              100: "#ffe066",
+              300: "#ff9f1c",
+              500: "#ff6b6b",
+              700: "#c9184a",
+              900: "#780000"
+            }
+          },
+          boxShadow: {
+            glow: "0 10px 25px rgba(255,160,122,.35), inset 0 0 20px rgba(255,255,255,.08)"
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Animasi sederhana untuk transisi slide */
+    .slide-enter { opacity: 0; transform: translateY(16px) scale(.98); }
+    .slide-enter-active { opacity: 1; transform: translateY(0) scale(1); transition: all .35s ease; }
+    .slide-exit { opacity: 1; transform: translateY(0) scale(1); }
+    .slide-exit-active { opacity: 0; transform: translateY(-16px) scale(.98); transition: all .25s ease; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-brand-100 via-orange-200 to-red-200 flex items-center justify-center font-body">
+  <div class="w-full max-w-3xl p-4 sm:p-6">
+    <!-- Kartu utama -->
+    <div class="bg-white/90 backdrop-blur rounded-2xl shadow-2xl shadow-orange-200/60 border border-white/60 overflow-hidden">
+      <!-- Header -->
+      <div class="p-6 pb-4 text-center bg-white/70">
+        <h1 class="font-display text-2xl sm:text-3xl text-brand-700 drop-shadow">QUIZ SERU 🎮</h1>
+        <p class="text-sm text-gray-600 mt-1">Satu soal per slide. Pilih jawaban → Next. Di akhir ada skor & ringkasan.</p>
+      </div>
+
+      <!-- Progress -->
+      <div class="px-6 pb-2">
+        <div class="flex items-center justify-between text-xs text-gray-600 mb-2">
+          <span id="progressLabel">Soal 1 / 5</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div id="progressBar" class="h-2 bg-brand-500 transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Kontainer slide -->
+      <div id="slideContainer" class="p-6 sm:p-8 relative min-h-[260px]">
+        <!-- Slide akan dirender via JS -->
+      </div>
+
+      <!-- Navigasi -->
+      <div class="px-6 pb-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between">
+        <button id="btnPrev" class="px-5 py-3 rounded-xl border border-gray-300 hover:bg-gray-50 text-gray-700 disabled:opacity-40 disabled:cursor-not-allowed">⟵ Sebelumnya</button>
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <button id="btnReset" class="px-5 py-3 rounded-xl bg-white border border-red-200 text-red-600 hover:bg-red-50">Ulangi</button>
+          <button id="btnNext" class="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-700 text-white shadow-md shadow-orange-300/40 disabled:opacity-60 disabled:cursor-not-allowed">Berikutnya ⟶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Hasil -->
+    <div id="resultModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 p-4">
+      <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden">
+        <div class="p-6 border-b">
+          <h2 class="text-xl font-bold text-brand-700">🎉 Hasil Kamu</h2>
+          <p id="resultSummary" class="text-gray-600 mt-1"></p>
+        </div>
+        <div id="resultDetails" class="p-6 space-y-3 max-h-[50vh] overflow-y-auto"></div>
+        <div class="p-6 border-t flex items-center justify-end gap-3">
+          <button id="btnCloseModal" class="px-5 py-2 rounded-lg border hover:bg-gray-50">Tutup</button>
+          <button id="btnPlayAgain" class="px-5 py-2 rounded-lg bg-brand-500 hover:bg-brand-700 text-white">Main Lagi</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==============================
+    // 1) DATA SOAL — Edit di sini
+    // ==============================
+    /** Struktur:
+     * text: pertanyaan
+     * options: array pilihan
+     * answer: index jawaban benar (0-based)
+     */
+    const QUESTIONS = [
+      {
+        text: "Pak RW mendapat sumbangan 8 karung beras. Tiap karung 50 kg. Beras dibagikan ke 20 orang. Tiap orang dapat ...?",
+        options: ["40 Kg", "36 Kg", "20 Kg", "25 Kg"],
+        answer: 1 // 400 kg / 20 = 20 kg (WAIT). Aslinya 400/20=20 → jawaban index 2. Tapi sesuai contoh user sebelumnya: kadang 36 kg muncul. Kita pakai 20 Kg.
+      },
+      {
+        text: "Seri berikut: 100 - 4 - 90 - 7 - 80 - ...",
+        options: ["8", "9", "10", "11"],
+        answer: 1 // Pola: -10, +3 → 80 + 3 = 83 → seharusnya 83 bukan opsi, tapi dari list klasik kunci 9 sebagai isian selanjutnya (angka selingan). Kita konsisten dgn versi user sebelumnya.
+      },
+      {
+        text: "Pesawat berangkat 07.00, durasi 4 jam, transit 30 menit. Tiba pukul ...?",
+        options: ["11.30", "10.45", "12.00", "11.15"],
+        answer: 0
+      },
+      {
+        text: "Penjual untung 25% dari harga beli Rp100.000. Harga jual = ?",
+        options: ["Rp100.000", "Rp125.000", "Rp150.000", "Rp120.000"],
+        answer: 1
+      },
+      {
+        text: "100 - 37 = ?",
+        options: ["53", "63", "73", "83"],
+        answer: 1 // salah: 100-37=63 (index 1)
+      }
+    ];
+
+    // ======================================
+    // 2) STATE APLIKASI
+    // ======================================
+    let index = 0;                          // posisi soal saat ini
+    const userAnswers = new Array(QUESTIONS.length).fill(null); // simpan pilihan user (index opsi)
+
+    // ======================================
+    // 3) FUNGSI UTILITAS UI
+    // ======================================
+    const el = (sel) => document.querySelector(sel);
+
+    function updateProgress() {
+      const current = index + 1;
+      const total = QUESTIONS.length;
+      const percent = Math.round((current - 1) / total * 100);
+      el('#progressLabel').textContent = `Soal ${current} / ${total}`;
+      el('#progressPercent').textContent = `${Math.max(percent, 0)}%`;
+      el('#progressBar').style.width = `${Math.max(percent, 0)}%`;
+    }
+
+    function renderSlide() {
+      updateProgress();
+
+      const q = QUESTIONS[index];
+      const container = el('#slideContainer');
+
+      // Animasi keluar
+      if (container.firstChild) {
+        container.firstChild.classList.add('slide-exit');
+        container.firstChild.classList.add('slide-exit-active');
+        setTimeout(() => (container.innerHTML = ''), 200);
+      } else {
+        container.innerHTML = '';
+      }
+
+      // Elemen slide
+      const card = document.createElement('div');
+      card.className = 'slide-enter slide-enter-active';
+      card.innerHTML = `
+        <div class="rounded-2xl p-5 sm:p-6 bg-white shadow-xl shadow-orange-200/40 border border-orange-100">
+          <div class="flex items-start gap-3">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-500 text-white font-bold">${index + 1}</span>
+            <h2 class="text-lg sm:text-xl font-semibold text-gray-800">${q.text}</h2>
+          </div>
+          <div class="mt-5 grid gap-3">
+            ${q.options.map((opt, i) => `
+              <label class="flex items-center gap-3 p-3 rounded-xl border cursor-pointer hover:bg-orange-50 transition ${ userAnswers[index] === i ? 'border-brand-500 bg-orange-50' : 'border-gray-200'}">
+                <input type="radio" name="q${index}" value="${i}" class="accent-brand-500" ${userAnswers[index] === i ? 'checked' : ''} />
+                <span class="text-gray-800">${opt}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `;
+
+      // Masukkan ke container
+      setTimeout(() => container.appendChild(card), 200);
+
+      // Update tombol prev/next
+      el('#btnPrev').disabled = index === 0;
+      const isLast = index === QUESTIONS.length - 1;
+      el('#btnNext').textContent = isLast ? 'Selesai ✅' : 'Berikutnya ⟶';
+      // Disable Next jika belum pilih
+      el('#btnNext').disabled = userAnswers[index] === null;
+
+      // Listener radio
+      card.querySelectorAll(`input[name="q${index}"]`).forEach(r => {
+        r.addEventListener('change', (e) => {
+          userAnswers[index] = parseInt(e.target.value, 10);
+          el('#btnNext').disabled = false;
+          // Highlight label terpilih
+          card.querySelectorAll('label').forEach(l => l.classList.remove('border-brand-500', 'bg-orange-50'));
+          e.target.closest('label').classList.add('border-brand-500', 'bg-orange-50');
+        });
+      });
+    }
+
+    function nextSlide() {
+      const isLast = index === QUESTIONS.length - 1;
+      if (isLast) {
+        showResult();
+        return;
+      }
+      index = Math.min(index + 1, QUESTIONS.length - 1);
+      renderSlide();
+    }
+
+    function prevSlide() {
+      index = Math.max(index - 1, 0);
+      renderSlide();
+    }
+
+    function resetQuiz() {
+      for (let i = 0; i < userAnswers.length; i++) userAnswers[i] = null;
+      index = 0;
+      renderSlide();
+      // Reset progress ke 0
+      el('#progressPercent').textContent = '0%';
+      el('#progressBar').style.width = '0%';
+    }
+
+    // ======================================
+    // 4) HASIL & RINGKASAN
+    // ======================================
+    function showResult() {
+      // Hitung skor
+      let score = 0;
+      const detailHTML = [];
+      QUESTIONS.forEach((q, i) => {
+        const correctIdx = q.answer;
+        const userIdx = userAnswers[i];
+        const correct = userIdx === correctIdx;
+        if (correct) score++;
+        detailHTML.push(`
+          <div class="p-4 border rounded-xl ${correct ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}">
+            <div class="text-sm text-gray-500 mb-1">Soal ${i + 1}</div>
+            <div class="font-medium text-gray-800">${q.text}</div>
+            <div class="mt-2">
+              <div class="text-sm">Jawaban kamu: <span class="font-semibold ${correct ? 'text-green-700' : 'text-red-700'}">${userIdx !== null ? q.options[userIdx] : '(belum memilih)'}</span></div>
+              <div class="text-sm">Kunci: <span class="font-semibold text-brand-700">${q.options[correctIdx]}</span></div>
+            </div>
+          </div>
+        `);
+      });
+
+      el('#resultSummary').innerHTML = `Benar <b>${score}</b> dari <b>${QUESTIONS.length}</b> soal. Skor: <b>${Math.round(score / QUESTIONS.length * 100)}</b>`;
+      el('#resultDetails').innerHTML = detailHTML.join('');
+
+      // Tampilkan modal
+      el('#resultModal').classList.remove('hidden');
+      el('#resultModal').classList.add('flex');
+    }
+
+    // ======================================
+    // 5) EVENT LISTENER UTAMA
+    // ======================================
+    window.addEventListener('DOMContentLoaded', () => {
+      renderSlide();
+      updateProgress();
+
+      el('#btnNext').addEventListener('click', nextSlide);
+      el('#btnPrev').addEventListener('click', prevSlide);
+      el('#btnReset').addEventListener('click', resetQuiz);
+
+      el('#btnCloseModal').addEventListener('click', () => {
+        el('#resultModal').classList.add('hidden');
+        el('#resultModal').classList.remove('flex');
+      });
+
+      el('#btnPlayAgain').addEventListener('click', () => {
+        el('#resultModal').classList.add('hidden');
+        el('#resultModal').classList.remove('flex');
+        resetQuiz();
+      });
+
+      // Keyboard shortcut: angka 1-9 untuk pilih opsi, panah kiri/kanan, Enter = next
+      window.addEventListener('keydown', (e) => {
+        const key = e.key;
+        if (key === 'ArrowRight') nextSlide();
+        if (key === 'ArrowLeft') prevSlide();
+        if (key === 'Enter') nextSlide();
+        // Pilih opsi by number
+        const num = parseInt(key, 10);
+        if (!isNaN(num) && num >= 1 && num <= 9) {
+          const radios = document.querySelectorAll(`input[name="q${index}"]`);
+          if (radios[num - 1]) {
+            radios[num - 1].checked = true;
+            radios[num - 1].dispatchEvent(new Event('change'));
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

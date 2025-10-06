@@ -107,12 +107,13 @@
     document.getElementById('btnStart').addEventListener('click', () => {
       alert('Game Dimulai!');
     });
-    document.getElementById('btnMateri').addEventListener('click', () => {
-      alert('Menu Materi dibuka!');
-    });
-    document.getElementById('btnLatihan').addEventListener('click', () => {
-      alert('Latihan dimulai!');
-    });
+document.getElementById('btnMateri').addEventListener('click', () => {
+  window.location.href = 'Untitled-2.html';
+});
+
+document.getElementById('btnLatihan').addEventListener('click', () => {
+  window.location.href = 'Untitled-3.html';
+});
 
     document.querySelectorAll('[data-topic]').forEach(card => {
       card.addEventListener('click', () => {

@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quiz Interaktif — 1 Soal per Slide</title>
-  <!-- Tailwind CDN -->
+  <title>Quiz Interaktif — Konsep Tanda Sama Dengan (=)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    // Konfigurasi Tailwind (opsional untuk font & warna)
     tailwind.config = {
       theme: {
         extend: {
@@ -31,32 +29,31 @@
       }
     }
   </script>
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Animasi sederhana untuk transisi slide */
     .slide-enter { opacity: 0; transform: translateY(16px) scale(.98); }
     .slide-enter-active { opacity: 1; transform: translateY(0) scale(1); transition: all .35s ease; }
     .slide-exit { opacity: 1; transform: translateY(0) scale(1); }
     .slide-exit-active { opacity: 0; transform: translateY(-16px) scale(.98); transition: all .25s ease; }
   </style>
 </head>
+
 <body class="min-h-screen bg-gradient-to-br from-brand-100 via-orange-200 to-red-200 flex items-center justify-center font-body">
+  <!-- Tombol Kembali ke Home (fixed) -->
+<a href="index.html" class="fixed top-4 left-4 flex items-center gap-2 bg-white/80 hover:bg-white text-brand-700 font-semibold px-4 py-2 rounded-xl shadow-md border border-orange-200 transition z-50">
+  ⬅️ <span>Kembali ke Home</span>
+</a>
+
   <div class="w-full max-w-3xl p-4 sm:p-6">
-    <!-- Kartu utama -->
     <div class="bg-white/90 backdrop-blur rounded-2xl shadow-2xl shadow-orange-200/60 border border-white/60 overflow-hidden">
-      <!-- Header -->
       <div class="p-6 pb-4 text-center bg-white/70">
         <h1 class="font-display text-2xl sm:text-3xl text-brand-700 drop-shadow">QUIZ SERU 🎮</h1>
-        <p class="text-sm text-gray-600 mt-1">Satu soal per slide. Pilih jawaban → Next. Di akhir ada skor & ringkasan.</p>
+        <p class="text-sm text-gray-600 mt-1">Materi: Konsep Tanda Sama Dengan (=)</p>
       </div>
 
-      <!-- Progress -->
       <div class="px-6 pb-2">
         <div class="flex items-center justify-between text-xs text-gray-600 mb-2">
-          <span id="progressLabel">Soal 1 / 5</span>
+          <span id="progressLabel">Soal 1 / 10</span>
           <span id="progressPercent">0%</span>
         </div>
         <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -64,22 +61,17 @@
         </div>
       </div>
 
-      <!-- Kontainer slide -->
-      <div id="slideContainer" class="p-6 sm:p-8 relative min-h-[260px]">
-        <!-- Slide akan dirender via JS -->
-      </div>
+      <div id="slideContainer" class="p-6 sm:p-8 relative min-h-[260px]"></div>
 
-      <!-- Navigasi -->
       <div class="px-6 pb-6 flex flex-col sm:flex-row gap-3 sm:gap-4 sm:items-center sm:justify-between">
         <button id="btnPrev" class="px-5 py-3 rounded-xl border border-gray-300 hover:bg-gray-50 text-gray-700 disabled:opacity-40 disabled:cursor-not-allowed">⟵ Sebelumnya</button>
         <div class="flex items-center gap-3 w-full sm:w-auto">
           <button id="btnReset" class="px-5 py-3 rounded-xl bg-white border border-red-200 text-red-600 hover:bg-red-50">Ulangi</button>
-          <button id="btnNext" class="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-700 text-white shadow-md shadow-orange-300/40 disabled:opacity-60 disabled:cursor-not-allowed">Berikutnya ⟶</button>
+          <button id="btnNext" class="flex-1 sm:flex-none px-6 py-3 rounded-xl bg-brand-500 hover:bg-brand-700 text-white shadow-md shadow-orange-300/40">Berikutnya ⟶</button>
         </div>
       </div>
     </div>
 
-    <!-- Modal Hasil -->
     <div id="resultModal" class="fixed inset-0 hidden items-center justify-center bg-black/40 p-4">
       <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden">
         <div class="p-6 border-b">
@@ -96,51 +88,86 @@
   </div>
 
   <script>
-    // ==============================
-    // 1) DATA SOAL — Edit di sini
-    // ==============================
-    /** Struktur:
-     * text: pertanyaan
-     * options: array pilihan
-     * answer: index jawaban benar (0-based)
-     */
+    // Fungsi notifikasi sederhana
+    function toast(msg){
+      const t = document.createElement('div');
+      t.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-black/80 text-white px-4 py-2 rounded-lg text-sm z-50';
+      t.textContent = msg;
+      document.body.appendChild(t);
+      setTimeout(()=>{ t.remove(); }, 1200);
+    }
+
+    // Soal berdasarkan LKS
     const QUESTIONS = [
       {
-        text: "Pak RW mendapat sumbangan 8 karung beras. Tiap karung 50 kg. Beras dibagikan ke 20 orang. Tiap orang dapat ...?",
-        options: ["40 Kg", "36 Kg", "20 Kg", "25 Kg"],
-        answer: 1 // 400 kg / 20 = 20 kg (WAIT). Aslinya 400/20=20 → jawaban index 2. Tapi sesuai contoh user sebelumnya: kadang 36 kg muncul. Kita pakai 20 Kg.
-      },
-      {
-        text: "Seri berikut: 100 - 4 - 90 - 7 - 80 - ...",
-        options: ["8", "9", "10", "11"],
-        answer: 1 // Pola: -10, +3 → 80 + 3 = 83 → seharusnya 83 bukan opsi, tapi dari list klasik kunci 9 sebagai isian selanjutnya (angka selingan). Kita konsisten dgn versi user sebelumnya.
-      },
-      {
-        text: "Pesawat berangkat 07.00, durasi 4 jam, transit 30 menit. Tiba pukul ...?",
-        options: ["11.30", "10.45", "12.00", "11.15"],
-        answer: 0
-      },
-      {
-        text: "Penjual untung 25% dari harga beli Rp100.000. Harga jual = ?",
-        options: ["Rp100.000", "Rp125.000", "Rp150.000", "Rp120.000"],
+        text: "Apa makna tanda sama dengan (=) dalam matematika?",
+        options: [
+          "Menunjukkan dua nilai yang berbeda",
+          "Menunjukkan dua nilai yang sama besar",
+          "Menunjukkan hasil dari penjumlahan",
+          "Menunjukkan urutan bilangan"
+        ],
         answer: 1
       },
       {
-        text: "100 - 37 = ?",
-        options: ["53", "63", "73", "83"],
-        answer: 1 // salah: 100-37=63 (index 1)
+        text: "Jika sisi kiri timbangan lebih berat, maka nilai di sisi kiri ... nilai di sisi kanan.",
+        options: ["lebih besar dari", "lebih kecil dari", "sama dengan", "tidak diketahui"],
+        answer: 0
+      },
+      {
+        text: "Agar timbangan seimbang, jumlah kelereng di kedua sisi harus ...",
+        options: ["berbeda", "sama banyak", "lebih banyak di kiri", "lebih banyak di kanan"],
+        answer: 1
+      },
+      {
+        text: "Jika sisi kiri berisi 3 kelereng dan sisi kanan 5 kelereng, maka hubungan kedua sisi adalah ...",
+        options: ["3 = 5", "3 < 5", "3 > 5", "tidak bisa ditentukan"],
+        answer: 1
+      },
+      {
+        text: "Manakah yang merupakan pernyataan seimbang?",
+        options: ["4 + 1 = 6", "2 + 3 = 5", "7 - 2 = 3", "5 + 2 = 10"],
+        answer: 1
+      },
+      {
+        text: "Jika 7 - 1 dan 3 + 2 dibandingkan, tanda hubungan yang benar adalah ...",
+        options: ["=", ">", "<", "tidak ada"],
+        answer: 1 // 6 > 5
+      },
+      {
+        text: "Agar sisi kanan timbangan lebih berat, kamu perlu ...",
+        options: [
+          "Menambah beban di sisi kanan",
+          "Mengurangi beban di sisi kanan",
+          "Menambah beban di sisi kiri",
+          "Menukar beban antara dua sisi"
+        ],
+        answer: 0
+      },
+      {
+        text: "Jika 1 bebek seimbang dengan 4 kelereng, maka 2 bebek seimbang dengan ... kelereng.",
+        options: ["4", "6", "8", "10"],
+        answer: 2
+      },
+      {
+        text: "Dalam konsep tanda sama dengan (=), yang paling penting adalah ...",
+        options: [
+          "Hasil operasi di sisi kiri",
+          "Jumlah bilangan di sisi kanan",
+          "Keseimbangan antara dua sisi",
+          "Urutan penjumlahan"
+        ],
+        answer: 2
+      },
+      {
+        text: "Pernyataan mana yang benar?",
+        options: ["10 - 2 = 5 + 3", "5 + 5 = 8 + 2", "7 + 1 = 10 - 1", "9 - 4 = 4 + 2"],
+        answer: 1
       }
     ];
 
-    // ======================================
-    // 2) STATE APLIKASI
-    // ======================================
-    let index = 0;                          // posisi soal saat ini
-    const userAnswers = new Array(QUESTIONS.length).fill(null); // simpan pilihan user (index opsi)
-
-    // ======================================
-    // 3) FUNGSI UTILITAS UI
-    // ======================================
+    let index = 0;
+    const userAnswers = new Array(QUESTIONS.length).fill(null);
     const el = (sel) => document.querySelector(sel);
 
     function updateProgress() {
@@ -154,24 +181,14 @@
 
     function renderSlide() {
       updateProgress();
-
       const q = QUESTIONS[index];
       const container = el('#slideContainer');
+      container.innerHTML = '';
 
-      // Animasi keluar
-      if (container.firstChild) {
-        container.firstChild.classList.add('slide-exit');
-        container.firstChild.classList.add('slide-exit-active');
-        setTimeout(() => (container.innerHTML = ''), 200);
-      } else {
-        container.innerHTML = '';
-      }
-
-      // Elemen slide
       const card = document.createElement('div');
       card.className = 'slide-enter slide-enter-active';
       card.innerHTML = `
-        <div class="rounded-2xl p-5 sm:p-6 bg-white shadow-xl shadow-orange-200/40 border border-orange-100">
+        <div class="rounded-2xl p-5 sm:p-6 bg-white shadow-xl border border-orange-100">
           <div class="flex items-start gap-3">
             <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-500 text-white font-bold">${index + 1}</span>
             <h2 class="text-lg sm:text-xl font-semibold text-gray-800">${q.text}</h2>
@@ -186,23 +203,15 @@
           </div>
         </div>
       `;
+      container.appendChild(card);
 
-      // Masukkan ke container
-      setTimeout(() => container.appendChild(card), 200);
-
-      // Update tombol prev/next
       el('#btnPrev').disabled = index === 0;
       const isLast = index === QUESTIONS.length - 1;
       el('#btnNext').textContent = isLast ? 'Selesai ✅' : 'Berikutnya ⟶';
-      // Disable Next jika belum pilih
-      el('#btnNext').disabled = userAnswers[index] === null;
 
-      // Listener radio
       card.querySelectorAll(`input[name="q${index}"]`).forEach(r => {
         r.addEventListener('change', (e) => {
           userAnswers[index] = parseInt(e.target.value, 10);
-          el('#btnNext').disabled = false;
-          // Highlight label terpilih
           card.querySelectorAll('label').forEach(l => l.classList.remove('border-brand-500', 'bg-orange-50'));
           e.target.closest('label').classList.add('border-brand-500', 'bg-orange-50');
         });
@@ -210,34 +219,17 @@
     }
 
     function nextSlide() {
+      if (userAnswers[index] === null) toast('Soal ini belum dijawab!');
       const isLast = index === QUESTIONS.length - 1;
-      if (isLast) {
-        showResult();
-        return;
-      }
+      if (isLast) { showResult(); return; }
       index = Math.min(index + 1, QUESTIONS.length - 1);
       renderSlide();
     }
 
-    function prevSlide() {
-      index = Math.max(index - 1, 0);
-      renderSlide();
-    }
+    function prevSlide() { index = Math.max(index - 1, 0); renderSlide(); }
+    function resetQuiz() { for (let i = 0; i < userAnswers.length; i++) userAnswers[i] = null; index = 0; renderSlide(); el('#progressBar').style.width = '0%'; }
 
-    function resetQuiz() {
-      for (let i = 0; i < userAnswers.length; i++) userAnswers[i] = null;
-      index = 0;
-      renderSlide();
-      // Reset progress ke 0
-      el('#progressPercent').textContent = '0%';
-      el('#progressBar').style.width = '0%';
-    }
-
-    // ======================================
-    // 4) HASIL & RINGKASAN
-    // ======================================
     function showResult() {
-      // Hitung skor
       let score = 0;
       const detailHTML = [];
       QUESTIONS.forEach((q, i) => {
@@ -259,50 +251,18 @@
 
       el('#resultSummary').innerHTML = `Benar <b>${score}</b> dari <b>${QUESTIONS.length}</b> soal. Skor: <b>${Math.round(score / QUESTIONS.length * 100)}</b>`;
       el('#resultDetails').innerHTML = detailHTML.join('');
-
-      // Tampilkan modal
       el('#resultModal').classList.remove('hidden');
       el('#resultModal').classList.add('flex');
     }
 
-    // ======================================
-    // 5) EVENT LISTENER UTAMA
-    // ======================================
     window.addEventListener('DOMContentLoaded', () => {
       renderSlide();
       updateProgress();
-
       el('#btnNext').addEventListener('click', nextSlide);
       el('#btnPrev').addEventListener('click', prevSlide);
       el('#btnReset').addEventListener('click', resetQuiz);
-
-      el('#btnCloseModal').addEventListener('click', () => {
-        el('#resultModal').classList.add('hidden');
-        el('#resultModal').classList.remove('flex');
-      });
-
-      el('#btnPlayAgain').addEventListener('click', () => {
-        el('#resultModal').classList.add('hidden');
-        el('#resultModal').classList.remove('flex');
-        resetQuiz();
-      });
-
-      // Keyboard shortcut: angka 1-9 untuk pilih opsi, panah kiri/kanan, Enter = next
-      window.addEventListener('keydown', (e) => {
-        const key = e.key;
-        if (key === 'ArrowRight') nextSlide();
-        if (key === 'ArrowLeft') prevSlide();
-        if (key === 'Enter') nextSlide();
-        // Pilih opsi by number
-        const num = parseInt(key, 10);
-        if (!isNaN(num) && num >= 1 && num <= 9) {
-          const radios = document.querySelectorAll(`input[name="q${index}"]`);
-          if (radios[num - 1]) {
-            radios[num - 1].checked = true;
-            radios[num - 1].dispatchEvent(new Event('change'));
-          }
-        }
-      });
+      el('#btnCloseModal').addEventListener('click', () => el('#resultModal').classList.add('hidden'));
+      el('#btnPlayAgain').addEventListener('click', () => { el('#resultModal').classList.add('hidden'); resetQuiz(); });
     });
   </script>
 </body>

@@ -27,18 +27,18 @@
         📚 Materi: Konsep Tanda Sama Dengan (=)
       </h1>
 
-      <!-- Tabs -->
-      <div class="flex flex-wrap justify-center gap-3 mb-6">
-        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="0">⚖️ Konsep</button>
-        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="1">➕➖ Operasi</button>
-        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="2">🔢 Hubungan</button>
-        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="3">🎮 Seimbangkan</button>
-        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="4">🎲 Contoh</button>
-        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="5">🧸 Mainan vs Kelereng</button>
+      <!-- Tabs (ditambah data-key agar bisa di-deeplink dari homepage) -->
+      <div class="flex flex-wrap justify-center gap-3 mb-6" role="tablist" aria-label="Topik Materi">
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="0" data-key="konsep" role="tab">⚖️ Konsep</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="1" data-key="operasi" role="tab">➕➖ Operasi</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="2" data-key="hubungan" role="tab">🔢 Hubungan</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="3" data-key="seimbangkan" role="tab">🎮 Seimbangkan</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="4" data-key="contoh" role="tab">🎲 Contoh</button>
+        <button class="tab px-4 py-2 rounded-xl bg-white/10 hover:bg-white/20" data-tab="5" data-key="mainan" role="tab">🧸 Mainan vs Kelereng</button>
       </div>
 
       <!-- Slide 1: Konsep -->
-      <div id="slide1" class="slide">
+      <div id="slide1" class="slide" role="tabpanel" aria-labelledby="tab-konsep">
         <div class="grid md:grid-cols-2 gap-6 items-center">
           <div class="text-center md:text-left">
             <h2 class="font-display text-3xl text-yellow-300 drop-shadow">Apa arti tanda = ?</h2>
@@ -52,7 +52,7 @@
           <div class="relative">
             <div class="absolute -top-6 -left-6 text-6xl opacity-20 animate-bounce">➕</div>
             <div class="absolute -bottom-6 -right-6 text-6xl opacity-20 animate-bounce" style="animation-delay:.8s">➖</div>
-            <svg viewBox="0 0 520 260" class="w-full">
+            <svg viewBox="0 0 520 260" class="w-full" aria-hidden="true">
               <rect x="40" y="220" width="440" height="20" rx="10" fill="rgba(0,0,0,.3)"/>
               <rect x="250" y="120" width="20" height="100" rx="8" fill="#2c2c2c"/>
               <circle cx="260" cy="120" r="14" fill="#ffd166"/>
@@ -69,15 +69,15 @@
       </div>
 
       <!-- Slide 2: Operasi -->
-      <div id="slide2" class="slide hidden">
+      <div id="slide2" class="slide hidden" role="tabpanel" aria-labelledby="tab-operasi">
         <div class="grid md:grid-cols-2 gap-6">
           <div class="bg-white/10 rounded-2xl p-4 flex flex-col items-center text-center">
-            <img src="https://img.icons8.com/color/96/marble.png" class="mb-3 animate-bounce"/>
+            <img src="https://img.icons8.com/color/96/marble.png" class="mb-3 animate-bounce" alt="Ikon kelereng tambah"/>
             <h2 class="font-display text-xl text-yellow-300 mb-2">Menambah Kelereng</h2>
             <p class="text-sm text-white/80">Jika sisi kiri lebih berat, tambahkan kelereng ke kanan agar seimbang.</p>
           </div>
           <div class="bg-white/10 rounded-2xl p-4 flex flex-col items-center text-center">
-            <img src="https://img.icons8.com/color/96/remove.png" class="mb-3 animate-bounce"/>
+            <img src="https://img.icons8.com/color/96/remove.png" class="mb-3 animate-bounce" alt="Ikon kelereng kurang"/>
             <h2 class="font-display text-xl text-yellow-300 mb-2">Mengurangi Kelereng</h2>
             <p class="text-sm text-white/80">Jika sisi kanan lebih berat, kurangi kelereng dari kanan supaya setara.</p>
           </div>
@@ -85,7 +85,7 @@
       </div>
 
       <!-- Slide 3: Hubungan -->
-      <div id="slide3" class="slide hidden">
+      <div id="slide3" class="slide hidden" role="tabpanel" aria-labelledby="tab-hubungan">
         <div class="text-center">
           <h2 class="font-display text-2xl text-yellow-300 mb-4">Hubungan Bilangan</h2>
           <div class="flex justify-center gap-6 text-4xl">
@@ -97,11 +97,11 @@
         </div>
       </div>
 
-      <!-- Slide 4: Seimbangkan (INTERAKTIF tombol +1/+5/-1 sesuai contohmu) -->
-      <div id="slide4" class="slide hidden">
+      <!-- Slide 4: Seimbangkan (INTERAKTIF) -->
+      <div id="slide4" class="slide hidden" role="tabpanel" aria-labelledby="tab-seimbangkan">
         <div class="flex items-center justify-between mb-4">
           <h3 class="font-display text-2xl">Coba Sendiri: Seimbangkan Timbangan</h3>
-          <div class="text-3xl" id="relIcon">❓</div>
+          <div class="text-3xl" id="relIcon" aria-hidden="true">❓</div>
         </div>
         <div class="grid md:grid-cols-3 gap-4">
           <!-- panel kiri -->
@@ -118,7 +118,7 @@
           <div class="flex items-center justify-center">
             <div class="text-center">
               <div class="text-sm text-white/80">Hubungan</div>
-              <div id="relation" class="text-6xl font-display">=</div>
+              <div id="relation" class="text-6xl font-display" aria-live="polite">=</div>
               <div class="text-sm text-white/80"><span id="leftVal">0</span> ? <span id="rightVal">0</span></div>
             </div>
           </div>
@@ -137,7 +137,7 @@
       </div>
 
       <!-- Slide 5: Contoh seimbang (acak) -->
-      <div id="slide5" class="slide hidden">
+      <div id="slide5" class="slide hidden" role="tabpanel" aria-labelledby="tab-contoh">
         <h3 class="font-display text-2xl mb-4">Jadikan Pernyataan Seimbang</h3>
         <div class="grid md:grid-cols-3 gap-4">
           <div class="bg-black/20 rounded-2xl p-4 text-center">
@@ -157,7 +157,7 @@
       </div>
 
       <!-- Slide 6: Mainan vs Kelereng -->
-      <div id="slide6" class="slide hidden">
+      <div id="slide6" class="slide hidden" role="tabpanel" aria-labelledby="tab-mainan">
         <h3 class="font-display text-2xl mb-4">Berapa kelereng setara 1 mainan?</h3>
         <div class="grid md:grid-cols-2 gap-6 items-center">
           <div class="flex justify-center">
@@ -175,13 +175,18 @@
       </div>
 
       <!-- Tombol Navigasi bawah -->
-      <div class="flex justify-center gap-4 mt-8">
- <button onclick="window.location.href='index.html'" class="px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 font-semibold flex items-center gap-2">
-  ⬅ Menu
-</button>
-
-        <button onclick="alert('Lanjut ke Latihan Soal')" class="px-6 py-3 rounded-xl bg-yellow-400 text-black font-bold shadow hover:scale-105 transform transition">Latihan ➡</button>
-      </div>
+<!-- Tombol Navigasi bawah -->
+<div class="flex justify-center gap-4 mt-8">
+  <a href="index.html" 
+     class="px-6 py-3 rounded-xl bg-white/20 hover:bg-white/30 font-semibold flex items-center gap-2">
+    ⬅ Menu
+  </a>
+   <a href="Untitled-2.html" 
+     class="px-6 py-3 rounded-xl bg-yellow-400 text-black font-bold shadow hover:scale-105 transform transition">
+ 
+    Latihan ➡
+</a>
+</div>
 
       <footer class="mt-10 text-center text-sm text-white/70">© <span id="year"></span> Materi Belajar — Konsep Sama Dengan</footer>
     </section>
@@ -190,23 +195,101 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Tabs/Slides
+    // --- Tabs/Slides
     const tabs=[...document.querySelectorAll('.tab')];
-    const slides=[document.getElementById('slide1'),document.getElementById('slide2'),document.getElementById('slide3'),document.getElementById('slide4'),document.getElementById('slide5'),document.getElementById('slide6')];
-    function showTab(i){
+    const slides=[
+      document.getElementById('slide1'),
+      document.getElementById('slide2'),
+      document.getElementById('slide3'),
+      document.getElementById('slide4'),
+      document.getElementById('slide5'),
+      document.getElementById('slide6')
+    ];
+
+    // Peta key -> index tab (sinkron dengan data-key di tombol)
+    const TAB_INDEX = {
+      'konsep': 0,
+      'operasi': 1,
+      'hubungan': 2,
+      'seimbangkan': 3,
+      'contoh': 4,
+      'mainan': 5
+    };
+
+    function showTab(i, pushUrl = true){
       slides.forEach((s,idx)=>{ s.classList.toggle('hidden', idx!==i); });
-      tabs.forEach((t,idx)=>t.classList.toggle('tab-active', idx===i));
-      // anim masuk
-      const active=slides[i]; active.classList.remove('hidden'); active.classList.add('slide-enter-active');
+      tabs.forEach((t,idx)=>{
+        t.classList.toggle('tab-active', idx===i);
+        t.setAttribute('aria-selected', idx===i ? 'true' : 'false');
+      });
+      const active=slides[i];
+      active.classList.remove('hidden');
+      active.classList.add('slide-enter-active');
       setTimeout(()=>active.classList.remove('slide-enter-active'), 480);
+
+      // perbarui hash agar bisa dibagikan (tanpa reload)
+      if(pushUrl){
+        const key = Object.keys(TAB_INDEX).find(k=>TAB_INDEX[k]===i) || 'konsep';
+        const newUrl = location.pathname + '?tab=' + encodeURIComponent(key);
+        history.replaceState(null, '', newUrl);
+        // Optional: sesuaikan title agar sesuai topik dipilih (match "topik di homepage")
+        const titleMap = {
+          0: 'Konsep Sama Dengan',
+          1: 'Operasi Penyeimbangan',
+          2: 'Hubungan Bilangan (<, =, >)',
+          3: 'Latihan Seimbangkan Timbangan',
+          4: 'Contoh Pernyataan Seimbang',
+          5: 'Mainan vs Kelereng'
+        };
+        document.title = 'Materi — ' + (titleMap[i] || 'Konsep Tanda Sama Dengan');
+      }
     }
-    tabs.forEach((t,idx)=>t.addEventListener('click',()=>showTab(idx)));
-    showTab(0);
 
-    // Util: bola kelereng
-    function marble(grad){ const d=document.createElement('div'); d.className='ball'; d.style.background = grad || 'radial-gradient(circle at 30% 30%, #fff5, #60a5fa)'; return d; }
+    // klik tab -> tampilkan dan update URL
+    tabs.forEach((t,idx)=>{
+      t.id = 'tab-' + (t.dataset.key || idx); // untuk aria-labelledby
+      t.addEventListener('click',()=>showTab(idx, true));
+      t.addEventListener('keydown', (e)=>{
+        // navigasi keyboard sederhana (← →)
+        if(e.key === 'ArrowRight'){ showTab(Math.min(idx+1, slides.length-1)); t.blur(); }
+        if(e.key === 'ArrowLeft'){ showTab(Math.max(idx-1, 0)); t.blur(); }
+      });
+    });
 
-    // Slide 4: Seimbangkan (sesuai contohmu +1/+5/-1)
+    // --- AUTO buka tab berdasar "topik di homepage"
+    // Mendukung: ?tab=seimbangkan atau #tab=seimbangkan
+    function getInitialTabKey(){
+      const qs = new URLSearchParams(location.search);
+      const byQuery = qs.get('tab') || qs.get('topic'); // fallback 'topic' jika homepage pakai param ini
+      if(byQuery) return byQuery.toLowerCase();
+      // dukung hash: #tab=xxx atau #xxx
+      if(location.hash){
+        const h = location.hash.replace(/^#/, '');
+        if(h.startsWith('tab=')) return h.split('=')[1].toLowerCase();
+        return h.toLowerCase();
+      }
+      return null;
+    }
+
+    function boot(){
+      const key = getInitialTabKey();
+      if(key && key in TAB_INDEX){
+        showTab(TAB_INDEX[key], false);
+      } else {
+        showTab(0, false);
+      }
+    }
+    boot();
+
+    // --- Util: bola kelereng
+    function marble(grad){
+      const d=document.createElement('div');
+      d.className='ball';
+      d.style.background = grad || 'radial-gradient(circle at 30% 30%, #fff5, #60a5fa)';
+      return d;
+    }
+
+    // --- Slide 4: Seimbangkan
     const leftWrap = document.getElementById('leftBalls');
     const rightWrap = document.getElementById('rightBalls');
     const leftVal = document.getElementById('leftVal');
@@ -226,29 +309,47 @@
     document.querySelectorAll('[data-act]').forEach(btn=>{
       btn.addEventListener('click',()=>{
         const act = btn.getAttribute('data-act');
-        if(act==='addL') L++; if(act==='addL5') L+=5; if(act==='remL') L=Math.max(0,L-1);
-        if(act==='addR') R++; if(act==='addR5') R+=5; if(act==='remR') R=Math.max(0,R-1);
+        if(act==='addL') L++;
+        if(act==='addL5') L+=5;
+        if(act==='remL') L=Math.max(0,L-1);
+        if(act==='addR') R++;
+        if(act==='addR5') R+=5;
+        if(act==='remR') R=Math.max(0,R-1);
         renderLR();
       });
     });
     renderLR();
 
-    // Slide 5: contoh acak tetap seimbang
+    // --- Slide 5: contoh acak tetap seimbang
     function rand(n){ return Math.floor(Math.random()*n); }
     document.querySelectorAll('[data-ex]').forEach(btn=>{
       btn.addEventListener('click',()=>{
         const ex = btn.getAttribute('data-ex');
-        if(ex==='1'){ const a=rand(6)+1; const b=rand(6)+1; document.getElementById('ex1').textContent=(a+b)+'️⃣'; }
-        if(ex==='2'){ const k=rand(5)+1; document.getElementById('ex2').textContent=k+'️⃣'; }
-        if(ex==='3'){ const a=rand(5)+1; const b=rand(5)+1; document.getElementById('ex3').textContent=(a+b)+'️⃣'; }
+        if(ex==='1'){
+          const a=rand(6)+1; const b=rand(6)+1;
+          document.getElementById('ex1').textContent=(a+b)+'️⃣';
+        }
+        if(ex==='2'){
+          const k=rand(5)+1;
+          document.getElementById('ex2').textContent=k+'️⃣';
+        }
+        if(ex==='3'){
+          const a=rand(5)+1; const b=rand(5)+1;
+          document.getElementById('ex3').textContent=(a+b)+'️⃣';
+        }
       });
     });
 
-    // Slide 6: duck = ? marbles
+    // --- Slide 6: duck = ? marbles
     const duckWrap = document.getElementById('duckBalls');
-    let B=3; function renderDuck(){ duckWrap.innerHTML=''; for(let i=0;i<B;i++) duckWrap.appendChild(marble('radial-gradient(circle at 30% 30%, #fff5, #22c55e)')); }
+    let B=3;
+    function renderDuck(){
+      duckWrap.innerHTML='';
+      for(let i=0;i<B;i++) duckWrap.appendChild(marble('radial-gradient(circle at 30% 30%, #fff5, #22c55e)'));
+    }
     renderDuck();
-    const moreB=document.getElementById('moreB'); const lessB=document.getElementById('lessB');
+    const moreB=document.getElementById('moreB');
+    const lessB=document.getElementById('lessB');
     if(moreB && lessB){
       moreB.onclick=()=>{ B++; renderDuck(); };
       lessB.onclick=()=>{ B=Math.max(0,B-1); renderDuck(); };
@@ -256,4 +357,3 @@
   </script>
 </body>
 </html>
-

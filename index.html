@@ -6,6 +6,7 @@
   <title>Pemrosesan Bilangan — Kelas 6</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    // Konfigurasi Tailwind (warna & animasi sesuai gaya kamu)
     tailwind.config = {
       theme: {
         extend: {
@@ -52,41 +53,53 @@
       </p>
 
       <!-- DUA TOMBOL: MULAI & TOPIK -->
-  <!-- DUA TOMBOL: MULAI & TOPIK -->
-<div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
-  <!-- ✅ ICON JOYSTICK FIXED -->
-  <button id="btnMulai" 
-          class="btn-game rounded-2xl px-8 py-4 text-2xl font-display uppercase shadow-lg hover:scale-105 transform transition flex items-center justify-center gap-3">
-    <img src="https://img.icons8.com/color/48/joystick.png" alt="ikon joystick" class="h-8 w-8 drop-shadow-md">
-    Mulai
-  </button>
+      <div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <button id="btnMulai" 
+                class="btn-game rounded-2xl px-8 py-4 text-2xl font-display uppercase shadow-lg hover:scale-105 transform transition flex items-center justify-center gap-3">
+          <img src="https://img.icons8.com/color/48/joystick.png" alt="ikon joystick" class="h-8 w-8 drop-shadow-md">
+          Mulai
+        </button>
 
-  <button id="btnTopik" 
-          class="rounded-2xl px-8 py-4 text-2xl font-display uppercase bg-white/20 hover:bg-white/30 shadow-md flex items-center justify-center gap-3">
-    <img src="https://img.icons8.com/color/48/list.png" alt="ikon daftar" class="h-8 w-8 drop-shadow-md">
-    Topik
-  </button>
-</div>
+        <button id="btnTopik" 
+                class="rounded-2xl px-8 py-4 text-2xl font-display uppercase bg-white/20 hover:bg-white/30 shadow-md flex items-center justify-center gap-3">
+          <img src="https://img.icons8.com/color/48/list.png" alt="ikon daftar" class="h-8 w-8 drop-shadow-md">
+          Topik
+        </button>
+      </div>
 
       <p id="hint" class="mt-2 text-white/80 text-sm hidden">Pilih <b>Topik</b>, lalu tentukan <b>Materi</b> atau <b>Latihan</b> di popup.</p>
 
-      <!-- GRID TOPIK: HIDDEN AWAL -->
-      <div id="topicsWrap" class="mt-8 grid grid-cols-2 gap-4 hidden">
+      <!-- GRID TOPIK: disamakan dengan tab materi (6 item) -->
+      <div id="topicsWrap" class="mt-8 grid grid-cols-2 md:grid-cols-3 gap-4 hidden">
+        <!-- Konsep -->
         <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
-          data-topic="aritmetika" data-icon="https://img.icons8.com/color/64/plus-math.png">
-          <img src="https://img.icons8.com/color/64/plus-math.png" class="mb-2" alt=""><p class="font-display text-lg">Aritmetika</p>
+          data-topic="konsep" data-icon="https://img.icons8.com/fluency/96/scales.png">
+          <img src="https://img.icons8.com/fluency/96/scales.png" class="mb-2" alt=""><p class="font-display text-lg">Konsep</p>
         </button>
+        <!-- Operasi -->
         <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
-          data-topic="kpk-fpb" data-icon="https://img.icons8.com/color/64/divide.png">
-          <img src="https://img.icons8.com/color/64/divide.png" class="mb-2" alt=""><p class="font-display text-lg">KPK & FPB</p>
+          data-topic="operasi" data-icon="https://img.icons8.com/color/96/plus-minus.png">
+          <img src="https://img.icons8.com/color/96/plus-minus.png" class="mb-2" alt=""><p class="font-display text-lg">Operasi</p>
         </button>
+        <!-- Hubungan -->
         <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
-          data-topic="pangkat" data-icon="https://img.icons8.com/color/64/superscript.png">
-          <img src="https://img.icons8.com/color/64/superscript.png" class="mb-2" alt=""><p class="font-display text-lg">Pangkat</p>
+          data-topic="hubungan" data-icon="https://img.icons8.com/color/96/less-than.png">
+          <img src="https://img.icons8.com/color/96/less-than.png" class="mb-2" alt=""><p class="font-display text-lg">&lt; = &gt;</p>
         </button>
+        <!-- Seimbangkan -->
         <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
-          data-topic="akar" data-icon="https://img.icons8.com/color/64/square-root.png">
-          <img src="https://img.icons8.com/color/64/square-root.png" class="mb-2" alt=""><p class="font-display text-lg">Akar</p>
+          data-topic="seimbangkan" data-icon="https://img.icons8.com/color/96/level.png">
+          <img src="https://img.icons8.com/color/96/level.png" class="mb-2" alt=""><p class="font-display text-lg">Seimbangkan</p>
+        </button>
+        <!-- Contoh -->
+        <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
+          data-topic="contoh" data-icon="https://img.icons8.com/fluency/96/dice.png">
+          <img src="https://img.icons8.com/fluency/96/dice.png" class="mb-2" alt=""><p class="font-display text-lg">Contoh</p>
+        </button>
+        <!-- Mainan -->
+        <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
+          data-topic="mainan" data-icon="https://img.icons8.com/emoji/96/duck.png">
+          <img src="https://img.icons8.com/emoji/96/duck.png" class="mb-2" alt=""><p class="font-display text-lg">Mainan</p>
         </button>
       </div>
 
@@ -113,7 +126,9 @@
               </div>
               <ul id="topicBullets" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-white/80"></ul>
               <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                <!-- Buka materi: kirim ?tab=... agar auto-switch -->
                 <a id="btnOpenMateri" href="#" class="flex-1 btn-game rounded-2xl px-5 py-3 font-display uppercase text-center shadow-lg">Buka Materi</a>
+                <!-- Mulai latihan: tetap pakai ?topic=... (sesuaikan dengan logika halaman latihanmu) -->
                 <a id="btnOpenLatihan" href="#" class="flex-1 rounded-2xl px-5 py-3 font-display uppercase bg-white/15 hover:bg-white/25 text-center shadow-lg">Mulai Latihan</a>
                 <button id="btnCloseModal" class="rounded-2xl px-5 py-3 font-display uppercase bg-white/10 hover:bg-white/20 shadow-lg">Tutup</button>
               </div>
@@ -128,12 +143,14 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Tombol MULAI: quick start ke halaman latihan (ubah ke materi jika mau)
+    // --- Navigasi cepat "Mulai" (ubah ke materi bila diinginkan)
     document.getElementById('btnMulai').addEventListener('click', () => {
-      window.location.href = 'Untitled-3.html'; // ganti ke 'Untitled-2.html' jika Mulai = Materi
+      // default: ke halaman latihan
+      window.location.href = 'Untitled-3.html';
+      // kalau mau langsung ke materi: window.location.href = 'Untitled-2.html';
     });
 
-    // Tombol TOPIK: tampilkan grid topik
+    // --- Tombol "Topik": munculkan grid topik
     const btnTopik = document.getElementById('btnTopik');
     const topicsWrap = document.getElementById('topicsWrap');
     const hint = document.getElementById('hint');
@@ -144,31 +161,41 @@
       topicsWrap.scrollIntoView({behavior:'smooth', block:'center'});
     });
 
-    // Data deskripsi per topik
+    // --- Data deskripsi per topik (disamakan dengan tab materi)
     const TOPIC_INFO = {
-      "aritmetika":{
-        title:"Aritmetika",
-        desc:"Operasi dasar bilangan: penjumlahan, pengurangan, perkalian, dan pembagian untuk masalah sehari-hari.",
-        bullets:["Urut & bandingkan bilangan","Operasi campuran +, −, ×, ÷","Soal cerita kontekstual","Trik hitung cepat"]
+      "konsep":{
+        title:"Konsep Sama Dengan",
+        desc:"Memahami arti tanda = sebagai kesetaraan nilai di kedua sisi, seperti timbangan yang seimbang.",
+        bullets:["Makna dasar tanda =","Contoh setara: 3+2 = 5","Setara beda bentuk: 7−1 = 3+3","Ilustrasi timbangan"]
       },
-      "kpk-fpb":{
-        title:"KPK & FPB",
-        desc:"Menentukan Kelipatan Persekutuan Terkecil dan Faktor Persekutuan Terbesar dengan berbagai metode.",
-        bullets:["Faktor prima & pohon faktor","Tabel kelipatan & faktor","KPK untuk penjadwalan","FPB untuk pembagian habis"]
+      "operasi":{
+        title:"Operasi Penyeimbangan",
+        desc:"Menambah atau mengurangi kelereng pada salah satu sisi untuk membuat timbangan kembali seimbang.",
+        bullets:["Tambah kelereng (+)","Kurangi kelereng (−)","Strategi menyeimbangkan","Cek hasil tiap langkah"]
       },
-      "pangkat":{
-        title:"Pangkat",
-        desc:"Pangkat sebagai perkalian berulang dan aturan pangkat sederhana.",
-        bullets:["aⁿ sebagai perkalian berulang","Aturan aᵐ×aⁿ, (aᵐ)ⁿ","Aplikasi luas/volume","Perkiraan hasil pangkat"]
+      "hubungan":{
+        title:"Hubungan Bilangan",
+        desc:"Menggunakan tanda <, =, > untuk membandingkan jumlah di sisi kiri dan kanan.",
+        bullets:["Lebih kecil (<)","Sama dengan (=)","Lebih besar (>)","Bandingkan dua sisi"]
       },
-      "akar":{
-        title:"Akar",
-        desc:"Akar kuadrat sebagai kebalikan pangkat dua dan teknik memperkirakan nilai akar.",
-        bullets:["Kuadrat ↔ akar","Akar bilangan sempurna","Perkiraan akar non-sempurna","Aplikasi geometri"]
+      "seimbangkan":{
+        title:"Latihan Seimbangkan Timbangan",
+        desc:"Interaktif: tombol +1/+5/−1 untuk menyesuaikan jumlah kelereng kiri/kanan hingga seimbang.",
+        bullets:["Tombol aksi cepat","+1 / +5 / −1","Lihat indikator hubungan","Targetkan tanda ="]
+      },
+      "contoh":{
+        title:"Contoh Pernyataan Seimbang",
+        desc:"Eksperimen acak nilai yang tetap menjaga kesetaraan pada kedua sisi persamaan.",
+        bullets:["Randomisasi nilai","Konsistensi hasil","Banyak variasi","Tetap setara (=)"]
+      },
+      "mainan":{
+        title:"Mainan vs Kelereng",
+        desc:"Menentukan berapa kelereng yang setara dengan 1 mainan (contoh: bebek) sebagai analogi kesetaraan.",
+        bullets:["Tentukan ekuivalensi","Tambah/kurangi kelereng","Visual interaktif","Contoh target: 1=3"]
       }
     };
 
-    // Modal
+    // --- Modal helper
     const modal = document.getElementById('topicModal');
     const topicTitle = document.getElementById('topicTitle');
     const topicDesc = document.getElementById('topicDesc');
@@ -183,13 +210,14 @@
     modal.addEventListener('click', e => { if (e.target === modal || e.target.classList.contains('backdrop-blur-sm')) closeModal(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.getAttribute('aria-hidden')==='false') closeModal(); });
 
-    // Klik topik → tampilkan modal info
+    // --- Klik kartu topik → tampilkan info + link yang sesuai
     document.querySelectorAll('[data-topic]').forEach(card => {
       card.addEventListener('click', () => {
         const key = card.getAttribute('data-topic');
         const icon = card.getAttribute('data-icon') || '';
         const info = TOPIC_INFO[key] || {};
 
+        // Isi konten modal
         topicTitle.textContent = info.title || 'Topik';
         topicDesc.textContent = info.desc || '';
         topicIcon.src = icon; topicIcon.alt = info.title || 'Topik';
@@ -202,7 +230,10 @@
           topicBullets.appendChild(li);
         });
 
-        btnOpenMateri.href = `Untitled-2.html?topic=${encodeURIComponent(key)}`;
+        // Buka Materi: arahkan ke halaman materi (Untitled-2.html) + param ?tab=...
+        btnOpenMateri.href = `Untitled-2.html?tab=${encodeURIComponent(key)}`;
+
+        // Mulai Latihan: tetap kirim topic (jaga kompatibilitas halaman latihanmu)
         btnOpenLatihan.href = `Untitled-3.html?topic=${encodeURIComponent(key)}`;
 
         openModal();

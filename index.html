@@ -1,37 +1,213 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Popup Warning Deploy</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pemrosesan Bilangan — Kelas 6</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Luckiest Guy","cursive"],
+            body: ["Poppins","ui-sans-serif","system-ui"]
+          },
+          colors: {
+            brand:{100:"#ffe066",300:"#ff9f1c",500:"#ff6b6b",700:"#c9184a",900:"#780000"}
+          },
+          keyframes:{
+            bouncey:{'0%,100%':{transform:'translateY(0)'},'50%':{transform:'translateY(-12px)'}},
+            shine:{'0%':{backgroundPosition:'-200px 0'},'100%':{backgroundPosition:'200px 0'}},
+            pop:{'0%':{opacity:0,transform:'scale(.95)'},'100%':{opacity:1,transform:'scale(1)'}},
+            fadeInUp:{'0%':{opacity:0,transform:'translateY(10px)'},'100%':{opacity:1,transform:'translateY(0)'}}
+          },
+          animation:{
+            bouncey:'bouncey 2s infinite',
+            shine:'shine 3s linear infinite',
+            pop:'pop .18s ease-out forwards',
+            fadeInUp:'fadeInUp .25s ease-out forwards'
+          },
+          boxShadow:{glow:"0 10px 25px rgba(255,160,122,.35), inset 0 0 20px rgba(255,255,255,.08)"}
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .bg-game{background:linear-gradient(135deg,#ff9f1c,#ff6b6b,#c9184a);background-size:600% 600%;animation:gradientFlow 10s ease infinite}
+    @keyframes gradientFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+    .btn-game{background:linear-gradient(90deg,#ffe066,#ff9f1c,#ff6b6b);background-size:200% auto;animation:shine 3s linear infinite;color:#fff;text-shadow:2px 2px 0 #000}
+  </style>
 </head>
-<body class="bg-gray-100">
-
-<!-- Overlay Popup -->
-<div id="deploy-popup" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-  <div class="bg-white text-center rounded-2xl shadow-2xl p-8 w-[90%] max-w-md relative animate-pulse">
-    <h2 class="text-xl font-semibold text-yellow-600 mb-2">⚠️ Mohon Tunggu</h2>
-    <p class="text-gray-700 mb-4">Deploy masih proses...<br>Perkiraan selesai: <span class="font-semibold">20.00</span></p>
-    
-    <!-- Progress Bar -->
-    <div class="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-      <div class="bg-yellow-500 h-4 rounded-full text-xs text-white text-center font-semibold" style="width:95%">
-        50%
+<body class="min-h-screen text-white font-body bg-game">
+  <main class="flex min-h-screen items-center justify-center p-4">
+    <section class="w-full max-w-3xl text-center">
+      <div class="flex flex-col items-center">
+        <img src="https://img.icons8.com/color/96/calculator--v1.png" alt="" class="mb-4 animate-bouncey"/>
+        <h1 class="font-display text-5xl sm:text-7xl text-yellow-300 drop-shadow-lg animate-bouncey">Pemrosesan Bilangan</h1>
       </div>
-    </div>
+      <p class="mt-4 text-white/90 font-semibold text-lg flex items-center justify-center gap-2">
+        <img src="https://img.icons8.com/color/48/school.png" class="h-8 w-8" alt=""> Kelas 6 SD — Belajar Seru!
+      </p>
 
-    <p class="mt-4 text-sm text-gray-500 italic">Jangan tutup atau refresh halaman ini.</p>
-  </div>
+      <!-- DUA TOMBOL: MULAI & TOPIK -->
+  <!-- DUA TOMBOL: MULAI & TOPIK -->
+<div class="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+  <!-- ✅ ICON JOYSTICK FIXED -->
+  <button id="btnMulai" 
+          class="btn-game rounded-2xl px-8 py-4 text-2xl font-display uppercase shadow-lg hover:scale-105 transform transition flex items-center justify-center gap-3">
+    <img src="https://img.icons8.com/color/48/joystick.png" alt="ikon joystick" class="h-8 w-8 drop-shadow-md">
+    Mulai
+  </button>
+
+  <button id="btnTopik" 
+          class="rounded-2xl px-8 py-4 text-2xl font-display uppercase bg-white/20 hover:bg-white/30 shadow-md flex items-center justify-center gap-3">
+    <img src="https://img.icons8.com/color/48/list.png" alt="ikon daftar" class="h-8 w-8 drop-shadow-md">
+    Topik
+  </button>
 </div>
 
-<script>
-  // Cegah user menekan tombol apapun / close popup
-  window.addEventListener("keydown", e => e.preventDefault());
-  window.addEventListener("contextmenu", e => e.preventDefault());
-  window.addEventListener("beforeunload", e => e.preventDefault());
-</script>
+      <p id="hint" class="mt-2 text-white/80 text-sm hidden">Pilih <b>Topik</b>, lalu tentukan <b>Materi</b> atau <b>Latihan</b> di popup.</p>
 
+      <!-- GRID TOPIK: HIDDEN AWAL -->
+      <div id="topicsWrap" class="mt-8 grid grid-cols-2 gap-4 hidden">
+        <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
+          data-topic="aritmetika" data-icon="https://img.icons8.com/color/64/plus-math.png">
+          <img src="https://img.icons8.com/color/64/plus-math.png" class="mb-2" alt=""><p class="font-display text-lg">Aritmetika</p>
+        </button>
+        <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
+          data-topic="kpk-fpb" data-icon="https://img.icons8.com/color/64/divide.png">
+          <img src="https://img.icons8.com/color/64/divide.png" class="mb-2" alt=""><p class="font-display text-lg">KPK & FPB</p>
+        </button>
+        <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
+          data-topic="pangkat" data-icon="https://img.icons8.com/color/64/superscript.png">
+          <img src="https://img.icons8.com/color/64/superscript.png" class="mb-2" alt=""><p class="font-display text-lg">Pangkat</p>
+        </button>
+        <button class="bg-white/10 p-6 rounded-2xl shadow-inner hover:scale-105 transform transition flex flex-col items-center focus:outline-none focus:ring-4 focus:ring-white/30"
+          data-topic="akar" data-icon="https://img.icons8.com/color/64/square-root.png">
+          <img src="https://img.icons8.com/color/64/square-root.png" class="mb-2" alt=""><p class="font-display text-lg">Akar</p>
+        </button>
+      </div>
+
+      <footer class="mt-12 text-sm text-white/70 flex items-center justify-center gap-2">
+        <img src="https://img.icons8.com/fluency/24/controller.png" alt=""> © <span id="year"></span> Belajar Seru — Gaya Game Android
+      </footer>
+    </section>
+  </main>
+
+  <!-- MODAL TOPIK -->
+  <div id="topicModal" class="fixed inset-0 z-50 hidden" aria-hidden="true">
+    <div class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+    <div class="relative mx-auto top-1/2 -translate-y-1/2 w-[92%] max-w-xl">
+      <div class="animate-pop rounded-3xl shadow-glow overflow-hidden">
+        <div class="bg-gradient-to-r from-brand-300 via-brand-500 to-brand-700 p-1">
+          <div class="rounded-3xl bg-[#1a1a1a]/90">
+            <div class="p-6">
+              <div class="flex items-start gap-4">
+                <img id="topicIcon" src="" alt="" class="h-14 w-14 drop-shadow-lg">
+                <div class="text-left">
+                  <h3 id="topicTitle" class="font-display text-3xl text-brand-100 drop-shadow">Judul Topik</h3>
+                  <p id="topicDesc" class="mt-2 text-white/90 leading-relaxed">Deskripsi singkat materi…</p>
+                </div>
+              </div>
+              <ul id="topicBullets" class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-white/80"></ul>
+              <div class="mt-6 flex flex-col sm:flex-row gap-3">
+                <a id="btnOpenMateri" href="#" class="flex-1 btn-game rounded-2xl px-5 py-3 font-display uppercase text-center shadow-lg">Buka Materi</a>
+                <a id="btnOpenLatihan" href="#" class="flex-1 rounded-2xl px-5 py-3 font-display uppercase bg-white/15 hover:bg-white/25 text-center shadow-lg">Mulai Latihan</a>
+                <button id="btnCloseModal" class="rounded-2xl px-5 py-3 font-display uppercase bg-white/10 hover:bg-white/20 shadow-lg">Tutup</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="mt-3 text-center text-xs text-white/70">Tekan <kbd class="px-1.5 py-0.5 rounded bg-white/10">Esc</kbd> untuk menutup</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Tombol MULAI: quick start ke halaman latihan (ubah ke materi jika mau)
+    document.getElementById('btnMulai').addEventListener('click', () => {
+      window.location.href = 'Untitled-3.html'; // ganti ke 'Untitled-2.html' jika Mulai = Materi
+    });
+
+    // Tombol TOPIK: tampilkan grid topik
+    const btnTopik = document.getElementById('btnTopik');
+    const topicsWrap = document.getElementById('topicsWrap');
+    const hint = document.getElementById('hint');
+    btnTopik.addEventListener('click', () => {
+      topicsWrap.classList.remove('hidden');
+      topicsWrap.classList.add('animate-fadeInUp');
+      hint.classList.remove('hidden');
+      topicsWrap.scrollIntoView({behavior:'smooth', block:'center'});
+    });
+
+    // Data deskripsi per topik
+    const TOPIC_INFO = {
+      "aritmetika":{
+        title:"Aritmetika",
+        desc:"Operasi dasar bilangan: penjumlahan, pengurangan, perkalian, dan pembagian untuk masalah sehari-hari.",
+        bullets:["Urut & bandingkan bilangan","Operasi campuran +, −, ×, ÷","Soal cerita kontekstual","Trik hitung cepat"]
+      },
+      "kpk-fpb":{
+        title:"KPK & FPB",
+        desc:"Menentukan Kelipatan Persekutuan Terkecil dan Faktor Persekutuan Terbesar dengan berbagai metode.",
+        bullets:["Faktor prima & pohon faktor","Tabel kelipatan & faktor","KPK untuk penjadwalan","FPB untuk pembagian habis"]
+      },
+      "pangkat":{
+        title:"Pangkat",
+        desc:"Pangkat sebagai perkalian berulang dan aturan pangkat sederhana.",
+        bullets:["aⁿ sebagai perkalian berulang","Aturan aᵐ×aⁿ, (aᵐ)ⁿ","Aplikasi luas/volume","Perkiraan hasil pangkat"]
+      },
+      "akar":{
+        title:"Akar",
+        desc:"Akar kuadrat sebagai kebalikan pangkat dua dan teknik memperkirakan nilai akar.",
+        bullets:["Kuadrat ↔ akar","Akar bilangan sempurna","Perkiraan akar non-sempurna","Aplikasi geometri"]
+      }
+    };
+
+    // Modal
+    const modal = document.getElementById('topicModal');
+    const topicTitle = document.getElementById('topicTitle');
+    const topicDesc = document.getElementById('topicDesc');
+    const topicIcon = document.getElementById('topicIcon');
+    const topicBullets = document.getElementById('topicBullets');
+    const btnOpenMateri = document.getElementById('btnOpenMateri');
+    const btnOpenLatihan = document.getElementById('btnOpenLatihan');
+
+    function openModal(){ modal.classList.remove('hidden'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+    function closeModal(){ modal.classList.add('hidden'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+    document.getElementById('btnCloseModal').addEventListener('click', closeModal);
+    modal.addEventListener('click', e => { if (e.target === modal || e.target.classList.contains('backdrop-blur-sm')) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.getAttribute('aria-hidden')==='false') closeModal(); });
+
+    // Klik topik → tampilkan modal info
+    document.querySelectorAll('[data-topic]').forEach(card => {
+      card.addEventListener('click', () => {
+        const key = card.getAttribute('data-topic');
+        const icon = card.getAttribute('data-icon') || '';
+        const info = TOPIC_INFO[key] || {};
+
+        topicTitle.textContent = info.title || 'Topik';
+        topicDesc.textContent = info.desc || '';
+        topicIcon.src = icon; topicIcon.alt = info.title || 'Topik';
+
+        topicBullets.innerHTML = '';
+        (info.bullets || []).forEach(t => {
+          const li = document.createElement('li');
+          li.className = "flex items-start gap-2";
+          li.innerHTML = `<span class="mt-1 inline-block h-2 w-2 rounded-full bg-brand-300"></span><span>${t}</span>`;
+          topicBullets.appendChild(li);
+        });
+
+        btnOpenMateri.href = `Untitled-2.html?topic=${encodeURIComponent(key)}`;
+        btnOpenLatihan.href = `Untitled-3.html?topic=${encodeURIComponent(key)}`;
+
+        openModal();
+      });
+    });
+  </script>
 </body>
 </html>
-
